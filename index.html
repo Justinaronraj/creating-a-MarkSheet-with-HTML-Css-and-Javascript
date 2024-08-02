@@ -17,12 +17,20 @@
         padding: 10px;
         
     }
+    
+    .container{
+        width: 100%;
+        border: 3px solid black;
+    }
     *{
         font-family: Alice;
         /* text-align: center; */
     }
     .main{
         background-color:rgb(240, 245, 213);
+    }
+    .header{
+        padding-top: 20px;
     }
     .srno{
         margin-left: 10px;
@@ -34,9 +42,10 @@
         /* object-fit: fill; */
     }
     #logo{
-        padding-top: 40px;
-        width: 100%;
-        height: 250px;
+        /* padding-top: 40px; */
+        width: 80%;
+        height: 180px;
+        margin-bottom: 20px;
     }
     .title{
         display: grid;
@@ -87,8 +96,12 @@
         width: 80%;
     }
     .qrcode{
-        float:right;
-        font-size: 25px;
+        display: flex;
+        justify-content: end;
+    }
+    #qrcode{
+        height: fit-content;
+        width: 100px;
     }
     tr,th{
         border: 2px solid rgb(90, 90, 3);
@@ -97,13 +110,12 @@
         text-align: center;
         font-size: x-large;
         color: rgb(16, 40, 16);
+        font-weight: 500;
     }
     td{
         padding: 10px;
     }
-    .secondary{
-        background-color:rgb(240, 245, 213);   
-    }
+    
     input{
         width: 50px;
     }
@@ -152,11 +164,17 @@
         text-align: center;
         padding-bottom: 20px;
     }
-    
+    .footer1{
+        background-color:rgba(237, 251, 170, 0.518) ;
+    }
+    #date{
+        width: 10%;
+        font-size: 20px;
+    }
 </style>
 </head>
 <body>
-    <!-- Mark Sheet Using HTML,CSS and Javasccript  -->
+    <div class="section bg">
      <div class="section">
         <div class="container main">
         <div class="row header">
@@ -169,7 +187,7 @@
                         <img id="logo" src="/image/hicet.png" alt="">
                     </div>
                     <div class="col-5 qrcode">
-                        <strong class="qrcode">Qr code</strong>
+                        <img src="/image/Untitled 1.png"  id="qrcode" alt="">
                     </div>
                 </div>
             </div>
@@ -214,11 +232,11 @@
                         </div>
                         </div>
                 </div>
-                </div>
+                
                 
                
        
-        <div class="container secondary">  
+        <!-- <div class="container secondary">   -->
      <div class="row">
         <div class="col-12 ">
             <div class="col-12">
@@ -344,10 +362,11 @@
                         </table>
                     </tbody>   
             </table>
-
         </div>
     </div>
 </div>
+<div class="row footer1">
+    <div class="col-12">
 <div class="row">
     <div class="col-10"></div>
     <div class="col-2" style="text-align: center;">
@@ -356,7 +375,7 @@
 </div>
 <div class="row">
     <div class="col-2">
-        <strong>Date:</strong><span>2/08/2024</span>
+        <strong>Date:</strong><span id="date">2/08/2024</span>
     </div>
     <div class="col-8"></div>
     <div class="col-2" style="text-align: center;">
@@ -370,27 +389,34 @@
 </div>
      </div>
      </div>
+     </div>
+     </div>
+    </div>
+    
      <script>
         
 const theoryInputs = document.getElementsByName('mark1');
 const practicalInputs = document.getElementsByName('pmark1');
 
-// Get the sum element
 const sumElement = document.getElementById('sum');
 const sumWordElement = document.getElementById('sumword');
 const percentageElement = document.getElementById('percentage');
 const gradeElement = document.getElementById('Grade');
 
-// Function to calculate the total marks
+
 function calculateTotalMarks() {
   let totalMarks = 0;
   for (let i = 0; i < theoryInputs.length; i++) {
     const theoryMark = parseInt(theoryInputs[i].value);
     const practicalMark = parseInt(practicalInputs[i].value);
     const totalMark = theoryMark + practicalMark;
+    if (totalMark > 100) {
+      alert(` marks of subject ${i + 1} cannot is invalid`);
+      return;
+    }
     totalMarks += totalMark;
-    // Update the total mark in the table
     theoryInputs[i].parentNode.parentNode.cells[5].innerHTML = totalMark;
+    theoryInputs[i].parentNode.parentNode.cells[6].innerHTML = numberToWords(totalMark);
   }
   sumElement.value = totalMarks;
   sumWordElement.innerHTML = numberToWords(totalMarks);
@@ -407,14 +433,13 @@ function printResult() {
     resultElement.innerHTML = '<span style="color: red;">Fail</span>';
   }
 }
-// Function to calculate the percentage
+
 function calculatePercentage() {
   const totalMarks = parseInt(sumElement.value);
   const percentage = (totalMarks / theoryInputs.length);
   percentageElement.innerHTML = percentage.toFixed(2);
 }
 
-// Function to calculate the grade
 function calculateGrade() {
   const percentage = parseFloat(percentageElement.innerHTML);
   let grade = '';
@@ -436,7 +461,7 @@ function calculateGrade() {
   printResult(); 
 }
 
-// Function to convert number to words
+
 function numberToWords(num) {
   const words = [];
   const numbers = {
@@ -467,7 +492,7 @@ function numberToWords(num) {
   }
 }
 
-// Add event listener to input elements
+
 for (let i = 0; i < theoryInputs.length; i++) {
   theoryInputs[i].addEventListener('input', calculateTotalMarks);
   practicalInputs[i].addEventListener('input', calculateTotalMarks);
